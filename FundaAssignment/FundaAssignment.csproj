@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.4" />
+    <PackageReference Include="RateLimiter" Version="2.2.0" />
     <PackageReference Include="Scrutor" Version="3.3.0" />
   </ItemGroup>
 

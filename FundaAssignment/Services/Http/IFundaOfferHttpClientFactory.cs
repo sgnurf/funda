@@ -2,8 +2,8 @@
 
 namespace FundaAssignment.Services.Http
 {
-    public interface IFundaOfferHttpClientFactory
+    public interface IFundaOfferHttpClientFactory<T>
     {
-        IFundaOfferHttpClient GetFundaOfferHttpClient();
+        IFundaOfferHttpClient<T> GetFundaOfferHttpClient();
     }
 }

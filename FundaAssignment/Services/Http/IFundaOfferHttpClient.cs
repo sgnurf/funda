@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace FundaAssignment.Services.Http
 {
-    public interface IFundaOfferHttpClient
+    public interface IFundaOfferHttpClient<T>
     {
-        Task<ApiResponse<OfferResponse>> GetOffer(string searchQuery);
+        Task<ApiCallResult<FundaApiResponse<T>>> GetOffer(string searchQuery);
     }
 }

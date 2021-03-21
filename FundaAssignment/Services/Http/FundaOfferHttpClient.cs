@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FundaAssignment.Services.Http
 {
-    public class FundaOfferHttpClient : IFundaOfferHttpClient
+    public class FundaOfferHttpClient<T> : IFundaOfferHttpClient<T>
     {
         private readonly HttpClient client;
         private readonly ILogger<OfferProvider> logger;
@@ -23,7 +23,7 @@ namespace FundaAssignment.Services.Http
             this.logger = logger;
         }
 
-        public async Task<ApiResponse<OfferResponse>> GetOffer(string searchQuery)
+        public async Task<ApiCallResult<FundaApiResponse<T>>> GetOffer(string searchQuery)
         {
             try
             {
@@ -43,8 +43,8 @@ namespace FundaAssignment.Services.Http
                 //TODO: Consider Splitting off deserialisation in it's own service to easily switch between XML and json if needed
                 using (var body = await response.Content.ReadAsStreamAsync())
                 {
-                    OfferResponse offer = await JsonSerializer.DeserializeAsync<OfferResponse>(body);
-                    return new ApiResponse<OfferResponse>(true, offer);
+                    FundaApiResponse<T> responseObject = await JsonSerializer.DeserializeAsync<FundaApiResponse<T>>(body);
+                    return new ApiCallResult<FundaApiResponse<T>>(true, responseObject);
                 }
             }
             catch (Exception e)
@@ -54,9 +54,9 @@ namespace FundaAssignment.Services.Http
             }
         }
 
-        private static ApiResponse<OfferResponse> CreateFailedResponse()
+        private static ApiCallResult<FundaApiResponse<T>> CreateFailedResponse()
         {
-            return new ApiResponse<OfferResponse>(false, null);
+            return new ApiCallResult<FundaApiResponse<T>>(false, null);
         }
     }
 }

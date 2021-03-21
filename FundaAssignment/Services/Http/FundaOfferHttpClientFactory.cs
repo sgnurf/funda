@@ -1,10 +1,9 @@
-﻿using FundaAssignment.Services;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace FundaAssignment.Services.Http
 {
-    public class FundaOfferHttpClientFactory : IFundaOfferHttpClientFactory
+    public class FundaOfferHttpClientFactory<T> : IFundaOfferHttpClientFactory<T>
     {
         private readonly IServiceProvider serviceProvider;
 
@@ -13,9 +12,9 @@ namespace FundaAssignment.Services.Http
             this.serviceProvider = serviceProvider;
         }
 
-        public IFundaOfferHttpClient GetFundaOfferHttpClient()
+        public IFundaOfferHttpClient<T> GetFundaOfferHttpClient()
         {
-            return serviceProvider.GetRequiredService<IFundaOfferHttpClient>();
+            return serviceProvider.GetRequiredService<IFundaOfferHttpClient<T>>();
         }
     }
 }

@@ -1,31 +1,35 @@
-﻿using FundaAssignment.Models;
+﻿using FundaAssignment.Configuration;
+using FundaAssignment.Models;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 
 namespace FundaAssignment.Services.Http
 {
-    public class FundaOfferHttpClientCachingDecorator : IFundaOfferHttpClient
+    public class FundaOfferHttpClientCachingDecorator<T> : IFundaOfferHttpClient<T>
     {
-        private readonly IFundaOfferHttpClient decoratedClient;
+        private readonly IFundaOfferHttpClient<T> decoratedClient;
         private readonly IMemoryCache memoryCache;
+        private readonly int cachingTimeInSeconds;
 
-        public FundaOfferHttpClientCachingDecorator(IFundaOfferHttpClient decoratedClient, IMemoryCache memoryCache)
+        public FundaOfferHttpClientCachingDecorator(IFundaOfferHttpClient<T> decoratedClient, IMemoryCache memoryCache, IOptions<FundaApiConfiguration> options)
         {
             this.decoratedClient = decoratedClient;
             this.memoryCache = memoryCache;
+            cachingTimeInSeconds = options.Value.RequestCacheDurationInSeconds;
         }
 
-        public async Task<ApiResponse<OfferResponse>> GetOffer(string searchQuery)
+        public async Task<ApiCallResult<FundaApiResponse<T>>> GetOffer(string searchQuery)
         {
-            if (memoryCache.TryGetValue(searchQuery, out ApiResponse<OfferResponse> offerResponse))
+            if (memoryCache.TryGetValue(searchQuery, out ApiCallResult<FundaApiResponse<T>> offerResponse))
             {
                 return offerResponse;
             }
 
             offerResponse = await decoratedClient.GetOffer(searchQuery);
             //TODO: Move cache time to configuration
-            memoryCache.Set(searchQuery, offerResponse, TimeSpan.FromSeconds(15));
+            memoryCache.Set(searchQuery, offerResponse, TimeSpan.FromSeconds(cachingTimeInSeconds));
 
             return offerResponse;
         }

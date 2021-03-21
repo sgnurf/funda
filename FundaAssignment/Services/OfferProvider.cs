@@ -1,43 +1,27 @@
-﻿using FundaAssignment.Configuration;
-using FundaAssignment.Models;
+﻿using FundaAssignment.Models;
 using FundaAssignment.Services.Http;
 using FundaAssignment.Services.SearchQuery;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace FundaAssignment.Services
 {
     public class OfferProvider : IOfferProvider
     {
-        private readonly IFundaOfferHttpClientFactory fundaOfferHttpClientfactory;
         private readonly ISearchQueryBuilder searchQueryBuilder;
+        private readonly IPaginatedDataCollator<OfferItem> paginatedDataCollator;
 
-        public OfferProvider(IFundaOfferHttpClientFactory fundaOfferHttpClientfactory, ISearchQueryBuilder searchQueryBuilder)
+        public OfferProvider(ISearchQueryBuilder searchQueryBuilder, IPaginatedDataCollator<OfferItem> paginatedDataCollator)
         {
-            this.fundaOfferHttpClientfactory = fundaOfferHttpClientfactory;
             this.searchQueryBuilder = searchQueryBuilder;
+            this.paginatedDataCollator = paginatedDataCollator;
         }
 
         public async Task<IEnumerable<OfferItem>> GetOffer(IEnumerable<string> filters)
         {
-            string queryString = searchQueryBuilder?.GetSearchQuery(filters);
-            IFundaOfferHttpClient httpClient = fundaOfferHttpClientfactory.GetFundaOfferHttpClient();
 
-            ApiResponse<OfferResponse> offerResponse = await httpClient.GetOffer(queryString);
-
-            if (!offerResponse.IsSuccess
-                || offerResponse.Body?.Objects == null)
-            {
-                return null;
-            }
-
-            return offerResponse.Body.Objects;
+            string searchQuery = searchQueryBuilder?.GetSearchQuery(filters);
+            return await paginatedDataCollator.GetCollatedData(searchQuery);
         }
     }
 }
