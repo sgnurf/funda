@@ -24,16 +24,18 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\api\client.ts" />
-    <None Remove="ClientApp\src\features\TopAgents\TopAgents.tsx" />
-    <None Remove="ClientApp\src\features\TopAgents\TopAgentsTable.tsx" />
-    <None Remove="ClientApp\src\features\TopAgents\topAgentTypes.ts" />
+    <None Remove="ClientApp\src\features\filters\filterTypes.ts" />
+    <None Remove="ClientApp\src\features\topAgents\TopAgents.tsx" />
+    <None Remove="ClientApp\src\features\topAgents\TopAgentsTable.tsx" />
+    <None Remove="ClientApp\src\features\topAgents\topAgentTypes.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\api\client.ts" />
-    <TypeScriptCompile Include="ClientApp\src\features\TopAgents\TopAgentsTable.tsx" />
-    <TypeScriptCompile Include="ClientApp\src\features\TopAgents\TopAgents.tsx" />
-    <TypeScriptCompile Include="ClientApp\src\features\TopAgents\topAgentTypes.ts" />
+    <TypeScriptCompile Include="ClientApp\src\features\filters\filterTypes.ts" />
+    <TypeScriptCompile Include="ClientApp\src\features\topAgents\TopAgentsTable.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\features\topAgents\TopAgents.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\features\topAgents\topAgentTypes.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

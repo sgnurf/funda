@@ -12,9 +12,6 @@ const createApplicationStore = (history: History, initialState?: RootState) => {
     });
 }
 
-export interface AppThunkAction<TAction> {
-    (dispatch: (action: TAction) => void, getState: () => RootState): void;
-}
-
 export type AppThunk = ThunkAction<void, RootState, null, Action<string>>
+export type appDispatch = ReturnType<typeof createApplicationStore>["dispatch"]
 export default createApplicationStore

@@ -9,7 +9,6 @@ import App from './app/App';
 import registerServiceWorker from './registerServiceWorker';
 import createApplicationStore from './store/store';
 
-
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') as string;
 const history = createBrowserHistory({ basename: baseUrl });
 
