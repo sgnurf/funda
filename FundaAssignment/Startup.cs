@@ -1,3 +1,4 @@
+using FundaAssignment.Extensiosn;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -18,8 +19,9 @@ namespace FundaAssignment
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddFundaAssignmentConfiguration(Configuration);
+            services.AddFundaAssignmentServices();
             services.AddControllers();
-
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";

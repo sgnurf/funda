@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -7,10 +7,12 @@
     <IsPackable>false</IsPackable>
     <SpaRoot>ClientApp\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+    <UserSecretsId>bd18a347-fe72-46b4-88dc-93077068095a</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.4" />
+    <PackageReference Include="Scrutor" Version="3.3.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,7 +23,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <None Remove="ClientApp\src\api\client.ts" />
+    <None Remove="ClientApp\src\features\TopAgents\TopAgents.tsx" />
+    <None Remove="ClientApp\src\features\TopAgents\TopAgentsTable.tsx" />
+    <None Remove="ClientApp\src\features\TopAgents\topAgentTypes.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\api\client.ts" />
+    <TypeScriptCompile Include="ClientApp\src\features\TopAgents\TopAgentsTable.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\features\TopAgents\TopAgents.tsx" />
+    <TypeScriptCompile Include="ClientApp\src\features\TopAgents\topAgentTypes.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
