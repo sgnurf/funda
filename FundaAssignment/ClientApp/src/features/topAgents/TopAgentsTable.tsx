@@ -30,7 +30,10 @@ function TopAgentsTable(props: TopAgentsTableProps) {
         tableContent = <tr><td colSpan={2}><Alert color="danger">We were unable to retrieve the data. Please try again later.</Alert></td></tr>
     }
     else if (props.status === 'loading') {
-        tableContent = <tr><td colSpan={2} style={{ textAlign: 'center' }}><Spinner color="primary" /></td></tr>
+        tableContent = <tr><td colSpan={2} style={{ textAlign: 'center' }}>
+            Please wait, this may take several minutes<br />
+            <Spinner color="primary" />
+        </td></tr>
     }
     else {
         tableContent = props.agents.map(a =>
